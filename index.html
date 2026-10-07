@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WEB GURU AI V3</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="toast" class="toast"></div>
+
+<div id="loginView" class="login-view">
+  <div class="login-card">
+    <div class="logo">👨‍🏫</div>
+    <h1>WEB GURU AI</h1>
+    <p>Administrasi Guru Digital • V3</p>
+    <form id="loginForm">
+      <input id="loginEmail" type="email" placeholder="Email Guru" required>
+      <input id="loginPassword" type="password" placeholder="Password" required>
+      <button class="primary wide">🔐 Masuk</button>
+    </form>
+    <small>Mode demo: akun tidak diverifikasi server. Untuk produksi, hubungkan Auth/database.</small>
+  </div>
+</div>
+
+<div id="appView" class="hidden">
+<aside class="sidebar" id="sidebar">
+  <div class="brand">🤖 <b>WEB GURU AI<br><small>V3.0</small></b></div>
+  <nav>
+    <button class="nav active" data-page="dashboard">🏠 Dashboard</button>
+    <button class="nav" data-page="siswa">👨‍🎓 Data Siswa</button>
+    <button class="nav" data-page="absensi">📋 Absensi</button>
+    <button class="nav" data-page="nilai">📊 Penilaian</button>
+    <button class="nav" data-page="ai">🤖 AI Guru</button>
+    <button class="nav" data-page="laporan">📑 Laporan</button>
+    <button class="nav" data-page="pengaturan">⚙️ Pengaturan</button>
+  </nav>
+  <div class="side-bottom"><span id="sideUser">Guru</span><button id="logout">Keluar</button></div>
+</aside>
+
+<main class="main">
+<header class="topbar">
+  <button class="hamburger" id="hamburger">☰</button>
+  <div><h2 id="title">Dashboard</h2><p id="desc">Pusat administrasi guru</p></div>
+  <div class="top-right"><span id="topUser">Guru</span><button id="theme">🌙</button></div>
+</header>
+
+<section class="page active" id="dashboard">
+  <div class="hero"><div><span>WEB GURU AI V3</span><h1>Administrasi Guru Terintegrasi</h1><p>Kelola siswa, absensi, nilai, laporan, dan persiapan pembelajaran.</p></div><b>🎓</b></div>
+  <div class="stats">
+    <article>👨‍🎓 <div><small>Total Siswa</small><strong id="ds">0</strong></div></article>
+    <article>✅ <div><small>Hadir Hari Ini</small><strong id="dh">0</strong></div></article>
+    <article>📊 <div><small>Data Nilai</small><strong id="dn">0</strong></div></article>
+    <article>📈 <div><small>Rata-rata</small><strong id="da">0</strong></div></article>
+  </div>
+  <div class="two">
+    <div class="card"><h3>Akses Cepat</h3><div class="quick">
+      <button data-page="siswa">👨‍🎓<b>Data Siswa</b><small>Peserta didik</small></button>
+      <button data-page="absensi">📋<b>Absensi</b><small>Kehadiran</small></button>
+      <button data-page="nilai">📊<b>Penilaian</b><small>Nilai siswa</small></button>
+      <button data-page="ai">🤖<b>AI Guru</b><small>Persiapan mengajar</small></button>
+    </div></div>
+    <div class="card"><h3>Profil Aktif</h3><div id="profileCard"></div></div>
+  </div>
+</section>
+
+<section class="page" id="siswa">
+<div class="section"><div><h2>Data Siswa</h2><p>Kelola peserta didik.</p></div><button class="primary" id="exportStudents">⬇ CSV</button></div>
+<div class="card"><form id="studentForm" class="form">
+<input id="nis" placeholder="NIS" required><input id="nama" placeholder="Nama siswa" required>
+<input id="kelas" placeholder="Kelas" required><select id="jk"><option>L</option><option>P</option></select>
+<button class="primary">＋ Tambah</button></form></div>
+<div class="card"><div class="toolbar"><input id="search" placeholder="🔎 Cari siswa..."><span id="count"></span></div>
+<div class="table"><table><thead><tr><th>NIS</th><th>Nama</th><th>Kelas</th><th>L/P</th><th>Aksi</th></tr></thead><tbody id="studentRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="absensi">
+<div class="section"><div><h2>Absensi</h2><p>Catat kehadiran berdasarkan tanggal.</p></div><input type="date" id="attDate"></div>
+<div class="card"><div class="attendance"><span>Hadir <b id="ah">0</b></span><span>Izin <b id="ai">0</b></span><span>Sakit <b id="as">0</b></span><span>Alpa <b id="aa">0</b></span></div>
+<div class="table"><table><thead><tr><th>NIS</th><th>Nama</th><th>Kelas</th><th>Status</th></tr></thead><tbody id="attRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="nilai">
+<div class="section"><div><h2>Penilaian</h2><p>Input dan rekap nilai.</p></div><button class="primary" id="exportScores">⬇ CSV</button></div>
+<div class="card"><form id="scoreForm" class="form">
+<select id="scoreStudent" required><option value="">Pilih siswa</option></select>
+<input id="scoreType" placeholder="Jenis penilaian" required><input id="scoreValue" type="number" min="0" max="100" placeholder="Nilai" required>
+<button class="primary">＋ Simpan</button></form></div>
+<div class="card"><div class="table"><table><thead><tr><th>Siswa</th><th>Kelas</th><th>Penilaian</th><th>Nilai</th><th>Aksi</th></tr></thead><tbody id="scoreRows"></tbody></table></div></div>
+</section>
+
+<section class="page" id="ai">
+<div class="section"><div><h2>AI Guru</h2><p>Generator lokal yang aman dipublikasikan ke GitHub.</p></div></div>
+<div class="ai-grid">
+<div class="card"><h3>📝 Generator Soal</h3><input id="qTopic" placeholder="Materi"><select id="qType"><option>PG</option><option>Uraian</option></select><input id="qNum" type="number" min="1" max="20" value="5"><button class="primary" id="qBtn">Buat Soal</button><div class="output" id="qOut"></div></div>
+<div class="card"><h3>📚 Rangkuman</h3><input id="mTopic" placeholder="Materi"><button class="primary" id="mBtn">Buat Rangkuman</button><div class="output" id="mOut"></div></div>
+<div class="card"><h3>🎯 Tujuan Pembelajaran</h3><input id="tpTopic" placeholder="Materi"><button class="primary" id="tpBtn">Buat TP</button><div class="output" id="tpOut"></div></div>
+<div class="card"><h3>💡 Aktivitas</h3><input id="actTopic" placeholder="Materi"><button class="primary" id="actBtn">Buat Aktivitas</button><div class="output" id="actOut"></div></div>
+</div>
+<div class="notice">Untuk AI produksi, gunakan backend/serverless function. Jangan menaruh API key rahasia di JavaScript GitHub Pages.</div>
+</section>
+
+<section class="page" id="laporan">
+<div class="section"><div><h2>Laporan</h2><p>Ringkasan administrasi.</p></div><button class="primary" onclick="window.print()">🖨 Cetak</button></div>
+<div class="report-grid"><div class="card"><h3>Siswa</h3><div id="rSiswa"></div></div><div class="card"><h3>Nilai</h3><div id="rNilai"></div></div><div class="card"><h3>Absensi</h3><div id="rAbsensi"></div></div></div>
+</section>
+
+<section class="page" id="pengaturan">
+<div class="section"><div><h2>Pengaturan</h2><p>Profil dan backup data.</p></div></div>
+<div class="card settings">
+<label>Nama Guru<input id="guru" placeholder="Nama Guru"></label><label>Nama Sekolah<input id="sekolah" placeholder="Nama Sekolah"></label><label>Mata Pelajaran<input id="mapel" placeholder="Mata Pelajaran"></label>
+<button class="primary" id="saveProfile">Simpan Profil</button><hr>
+<div class="actions"><button class="secondary" id="backup">⬇ Backup JSON</button><label class="secondary file">⬆ Restore JSON<input type="file" id="restore" accept=".json"></label><button class="danger" id="reset">🗑 Reset Data</button></div>
+</div></section>
+
+<footer>WEB GURU AI V3.0 • GitHub Pages Ready</footer>
+</main></div>
+<script src="script.js"></script>
+</body></html>
